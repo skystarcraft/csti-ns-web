@@ -8,7 +8,10 @@ import { Button, Select } from 'element-ui';
 import '@/assets/theme/index.css'
 import axios from 'axios'
 import Global from "./utils/global.js";
+import mavonEditor from 'mavon-editor';
+import 'mavon-editor/dist/css/index.css'
 
+Vue.use(mavonEditor)
 Vue.use(ElementUI)
 Vue.component(Button.name, Button);
 Vue.component(Select.name, Select);

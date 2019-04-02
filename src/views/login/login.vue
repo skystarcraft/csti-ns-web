@@ -58,9 +58,14 @@ import Cookies from "js-cookie";
           uid: userForm.uid,
           user_password: userForm.user_password
         }).then(res => {
-          // this.$Global.cookie.set("token", res.data.data);
-          Cookies.set('token', res.data.data);
-          // console.log('token ' + Cookies.get('token'));
+          if (res.data.code === 200) {
+            // this.$Global.cookie.set("token", res.data.data);
+            Cookies.set('token', res.data.data);
+            Cookies.set('user', userForm.uid);
+            // console.log('token ' + Cookies.get('token'));
+          } else {
+            alert(res.data.data);
+          }
         })
       }
     }

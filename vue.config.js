@@ -43,12 +43,12 @@ module.exports = {
           '^/pay': ''
         }
       },
-      '/comment': {
+      '/acom': {
         target: 'http://localhost:8083/', //对应自己的接口
         changeOrigin: true,
         ws: true,
         pathRewrite: {
-          '^/comment': ''
+          '^/acom': ''
         }
       },
       '/res': {
