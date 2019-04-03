@@ -16,6 +16,10 @@
         <el-form-item size="small" class="me-login-button">
           <el-button type="primary" @click.native="login(userForm)">登录</el-button>
         </el-form-item>
+
+        <el-form-item size="small" class="me-login-button">
+          <el-button type="primary" @click.native="register()">注册</el-button>
+        </el-form-item>
       </el-form>
 
       <div class="me-login-design">
@@ -63,10 +67,14 @@ import Cookies from "js-cookie";
             Cookies.set('token', res.data.data);
             Cookies.set('user', userForm.uid);
             // console.log('token ' + Cookies.get('token'));
+            this.$message({message: "登录成功!", type: 'success'});
           } else {
-            alert(res.data.data);
+            this.$message.error(res.data.data);
           }
         })
+      },
+      register() {
+        this.$router.push({name: 'register'});
       }
     }
   }

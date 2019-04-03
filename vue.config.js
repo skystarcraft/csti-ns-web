@@ -27,12 +27,12 @@ module.exports = {
           '^/front': ''
         }
       },
-      '/search': {
+      '/es': {
         target: 'http://localhost:8085/', //对应自己的接口
         changeOrigin: true,
         ws: true,
         pathRewrite: {
-          '^/search': ''
+          '^/es': ''
         }
       },
       '/pay': {

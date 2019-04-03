@@ -26,6 +26,7 @@ import Cookies from "js-cookie";
     data() {
       return {
         article: {
+          article_id: null,
           article_title: null,
           article_context: '',
           article_view: null,
@@ -48,10 +49,11 @@ import Cookies from "js-cookie";
           uid: uid
         }).then(res => {
           if (res.data.code === 200) {
-            alert(res.data.msg);
+            this.$message(res.data.msg);
             console.log(res.data.data);
+            this.addSearch(res.data.data);
           } else {
-            alert(res.data.msg);
+            this.$message.error(res.data.msg);
           }
         })
       },
@@ -62,7 +64,10 @@ import Cookies from "js-cookie";
             this.uid = res.data.uid;
             console.log(res.data.data);
           } else {
-            alert(res.data.msg);
+            Cookies.remove('token');
+            Cookies.remove('user');
+            this.$message.error(res.data.msg);
+            this.$router.push({name: 'login'})
           }
         })
       },
@@ -72,6 +77,22 @@ import Cookies from "js-cookie";
        $imgDel(pos){
            delete this.img_file[pos];
        },
+       addSearch(article) {
+         this.$api.post('/es/addes',{
+           article_id: article.article_id,
+           article_title: article.article_title,
+           article_context: article.article_title,
+           article_view: article.article_title,
+           uid: article.article_title,
+           article_date: article.article_title
+         }).then(res => {
+           if (res.data.code === 200) {
+             console.log(res.data.msg);
+           } else {
+             console.log(res.data.msg);
+           }
+         })
+       }
     }
   }
 </script>

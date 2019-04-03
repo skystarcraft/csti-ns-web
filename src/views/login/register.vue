@@ -41,7 +41,7 @@
 
         <el-form-item prop="user_phone">
           <el-input placeholder="手机" v-model="userForm.user_phone" style="width: 60%"></el-input>
-          <el-button type="primary" @click.native="sendCode(userForm)" style="width: 40%">点击发送验证码</el-button>
+          <el-button type="primary" @click.native="sendCode(userForm)" style="width: 40%">接收验证码</el-button>
         </el-form-item>
 
         <el-form-item prop="user_phone">
@@ -167,26 +167,27 @@ import Cookies from "js-cookie";
               if (res.data.code === 200) {
                 // this.$Global.cookie.set("token", res.data.data);
                 console.log(res.data.data);
-                alert("注册成功！");
+                this.$message({message:"注册成功！", type: 'success'});
                 this.$router.push({name: 'login'});
               } else {
-                alert(res.data.msg);
+                this.$message.error(res.data.msg);
               }
             })
           } else {
-            alert("信息填写有误！");
+            this.$message.error("信息填写有误！");
           }
         } else {
-          alert("验证码错误！");
+          this.$message.error("验证码错误！");
         }
       },
       sendCode(userForm) {
         this.$api.get('/sso/user/vcode/' + userForm.user_phone).then(res => {
           if (res.data.code === 200) {
+
             userForm.currentCode = res.data.data;
             // console.log(res.data.data);
           } else {
-            alert(res.data.msg);
+            this.$message.error(res.data.msg);
           }
         })
       }

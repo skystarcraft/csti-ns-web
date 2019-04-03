@@ -18,12 +18,12 @@ import Cookies from "js-cookie";
         articles: [],
         comments: null,
         article: {
-          aid: null,
-          article_title: null,
-          article_context: null,
-          article_view: null,
-          uid: null,
-          article_date: null,
+          aid: '',
+          article_title: '',
+          article_context: '',
+          article_view: '',
+          uid: '',
+          article_date: '',
         },
       }
     },
@@ -38,7 +38,7 @@ import Cookies from "js-cookie";
           if (res.data.code === 200) {
             this.articles = res.data.data;
           } else {
-            alert(res.data.msg);
+            this.$message.error(res.data.msg);
             article = null;
           }
         })
@@ -50,7 +50,10 @@ import Cookies from "js-cookie";
             this.uid = res.data.uid;
             console.log(res.data.data);
           } else {
-            alert(res.data.msg);
+            Cookies.remove('token');
+            Cookies.remove('user');
+            this.$message.error(res.data.msg);
+            this.$router.push({name: 'login'});
           }
         })
       },
@@ -60,7 +63,7 @@ import Cookies from "js-cookie";
           if (res.data.code === 200) {
             this.getArticle();
           } else {
-            alert(res.data.msg);
+            this.$message.error(res.data.msg);
           }
         })
       }

@@ -6,6 +6,7 @@ import Article from "./views/articles/article.vue"
 import Register from "./views/login/register.vue"
 import WriteArticle from "./views/articles/writeArticle.vue"
 import IArticle from "./views/articles/iarticle.vue"
+import Pay from "./views/pay/pay.vue"
 
 Vue.use(Router)
 
@@ -50,6 +51,11 @@ export default new Router({
       path: '/i/article/',
       name: 'iArticle',
       component: IArticle
+    },
+    {
+      path: '/pay/',
+      name: 'pay',
+      component: Pay
     }
   ]
 })

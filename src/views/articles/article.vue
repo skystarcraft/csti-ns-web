@@ -13,7 +13,7 @@
 
     <el-form ref="comment" :model="comment">
         <el-form-item>
-          <el-input placeholder="发布评论" v-model="comment"></el-input>
+          <el-input placeholder="发布评论" v-model="comment.article_context"></el-input>
         </el-form-item>
       <el-form-item size="large" class="me-login-button">
         <el-button type="primary" @click.native="writeComment(comment)">发布评论</el-button>
@@ -30,14 +30,14 @@ import Cookies from "js-cookie";
     data() {
       return {
         article: {
-          aid: null,
-          article_title: null,
-          article_context: null,
-          article_view: null,
-          uid: null,
-          article_date: null,
+          aid: '',
+          article_title: '',
+          article_context: '',
+          article_view: '',
+          uid: '',
+          article_date: '',
         },
-        comments: {},
+        comments: null,
         comment: {
           aid: '',
           uid: '',
@@ -65,7 +65,7 @@ import Cookies from "js-cookie";
             this.article.article_date = res.data.data.article_date;
             console.log(res.data.data);
           } else {
-            alert(res.data.msg);
+            this.$message.error(res.data.msg);
             article = null;
           }
         })
@@ -89,7 +89,10 @@ import Cookies from "js-cookie";
             this.uid = res.data.uid;
             console.log(res.data.data);
           } else {
-            alert(res.data.msg);
+            Cookies.remove('token');
+            Cookies.remove('user');
+            this.$message.error("请重新登录！");
+            this.$router.push({name: 'login'})
           }
         })
       },
@@ -101,10 +104,10 @@ import Cookies from "js-cookie";
           uid: uid
         }).then(res => {
           if (res.data.code === 200) {
-            alert(res.data.msg);
+            this.$message(res.data.msg);
             console.log(res.data.data);
           } else {
-            alert(res.data.msg);
+            this.$message.error(res.data.msg);
           }
         })
       }
