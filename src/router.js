@@ -6,7 +6,8 @@ import Article from "./views/articles/article.vue"
 import Register from "./views/login/register.vue"
 import WriteArticle from "./views/articles/writeArticle.vue"
 import IArticle from "./views/articles/iarticle.vue"
-import Pay from "./views/pay/pay.vue"
+import XPay from "./views/pay/xpay.vue"
+import AlibabaPay from "./views/pay/alibabapay.vue"
 
 Vue.use(Router)
 
@@ -53,9 +54,14 @@ export default new Router({
       component: IArticle
     },
     {
-      path: '/pay/',
-      name: 'pay',
-      component: Pay
+      path: '/xpay/',
+      name: 'xpay',
+      component: XPay
+    },
+    {
+      path: '/alipay/',
+      name: 'alipay',
+      component: AlibabaPay
     }
   ]
 })

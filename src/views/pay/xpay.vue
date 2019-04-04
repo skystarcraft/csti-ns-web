@@ -1,10 +1,7 @@
 <template>
   <div>
     <div id="pays">
-      <el-form ref="form" :model="pays">
-        <el-input v-model="pays"
-                  suffix-icon="el-icon-search" style="width: 40%" @click="pay(pays)"></el-input>
-      </el-form>
+      <li v-for="pay in pays" @click="alipay(pay)">{{pay}}</li>
     </div>
   </div>
 </template>
@@ -12,7 +9,7 @@
 <script>
 import Cookies from "js-cookie";
   export default {
-    name: 'Pay',
+    name: 'XPay',
     data() {
       return {
         pays: null,
@@ -24,12 +21,12 @@ import Cookies from "js-cookie";
     },
     methods: {
       getPayList () {
-        this.$api.get('/art/articles').then(res => {
+        this.$api.get('/pay/xpay/prices').then(res => {
           if (res.data.code === 200) {
-            this.articles = res.data.data;
+            this.pays = res.data.data;
             // console.log(res.data.data);
           } else {
-            articles = res.data.msg;
+             this.$message.error(res.data.msg);
           }
         })
       },
@@ -47,14 +44,11 @@ import Cookies from "js-cookie";
           }
         })
       },
-      pay(pays) {
-        this.$api.get('/es/select/' + form.search).then(res => {
-          if (res.data.code === 200) {
-            this.articles = res.data.data;
-            // console.log(res.data.data);
-          } else {
-            articles = res.data.msg;
-          }
+      alipay(pay) {
+        var uid = Cookies.get('user');
+        var money = pay.rmb;
+        this.$api.get('/pay/xpay/pay/' + uid + '/' + money).then(res => {
+          this.$router.push({name: 'alipay', params: {data: res.data}});
         })
       }
     }
