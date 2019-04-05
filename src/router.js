@@ -8,6 +8,7 @@ import WriteArticle from "./views/articles/writeArticle.vue"
 import IArticle from "./views/articles/iarticle.vue"
 import XPay from "./views/pay/xpay.vue"
 import AlibabaPay from "./views/pay/alibabapay.vue"
+import Home from "./views/home.vue"
 
 Vue.use(Router)
 
@@ -62,6 +63,11 @@ export default new Router({
       path: '/alipay/',
       name: 'alipay',
       component: AlibabaPay
+    },
+    {
+      path: '/index/',
+      name: 'index',
+      component: Home
     }
   ]
 })

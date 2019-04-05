@@ -68,6 +68,7 @@ import Cookies from "js-cookie";
             Cookies.set('user', userForm.uid);
             // console.log('token ' + Cookies.get('token'));
             this.$message({message: "登录成功!", type: 'success'});
+            this.$router.push({name: 'index'});
           } else {
             this.$message.error(res.data.data);
           }

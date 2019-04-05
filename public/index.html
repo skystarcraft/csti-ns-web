@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width,initial-scale=1.0,
     minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
     <link rel="icon" href="<%= BASE_URL %>favicon.ico">
-    <title>csti-ns-web</title>
+    <title>计软科协-NS组</title>
   </head>
   <body>
     <noscript>
@@ -15,4 +15,20 @@
     <div id="app"></div>
     <!-- built files will be auto injected -->
   </body>
+  <script>
+    var OriginTitile = document.title;
+    var titleTime;
+    document.addEventListener('visibilitychange', function() {
+        if (document.hidden) {
+            document.title = '(つェ⊂)我藏好了哦~ ';
+            clearTimeout(titleTime);
+        }
+        else {
+            document.title = '(*´∇｀*) 被你发现啦~ ';
+            titleTime = setTimeout(function() {
+                document.title = OriginTitile;
+            }, 2000);
+        }
+    });
+  </script>
 </html>
