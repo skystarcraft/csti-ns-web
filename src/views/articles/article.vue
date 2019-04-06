@@ -78,7 +78,7 @@ import Cookies from "js-cookie";
             this.comments = res.data.data;
             // console.log(res.data.data);
           } else {
-            article = res.data.msg;
+            this.$message.error(res.data.msg);
           }
         })
       },
@@ -105,7 +105,8 @@ import Cookies from "js-cookie";
         }).then(res => {
           if (res.data.code === 200) {
             this.$message(res.data.msg);
-            console.log(res.data.data);
+            this.getComments();
+            // console.log(res.data.data);
           } else {
             this.$message.error(res.data.msg);
           }

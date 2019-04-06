@@ -9,6 +9,10 @@ import IArticle from "./views/articles/iarticle.vue"
 import XPay from "./views/pay/xpay.vue"
 import AlibabaPay from "./views/pay/alibabapay.vue"
 import Home from "./views/home.vue"
+import Resources from "./views/resource/resources"
+import Resource from "./views/resource/resource"
+import IRes from "./views/resource/ires.vue"
+import UploadRes from "./views/resource/uploadres.vue"
 
 Vue.use(Router)
 
@@ -68,6 +72,31 @@ export default new Router({
       path: '/index/',
       name: 'index',
       component: Home
-    }
+    },
+    {
+      path: '/resources/',
+      name: 'resources',
+      component: Resources
+    },
+    {
+      path: '/resource',
+      name: 'resource',
+      component: Resource
+    },
+    {
+      path: '/resource/:rid',
+      name: 'resource',
+      component: Resource
+    },
+    {
+      path: '/i/res/',
+      name: 'iRes',
+      component: IRes
+    },
+    {
+      path: '/upload',
+      name: 'upload',
+      component: UploadRes
+    },
   ]
 })

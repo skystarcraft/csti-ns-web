@@ -25,9 +25,24 @@
       }
     },
     mounted() {
+    this.getUser();
       this.getArticleList();
     },
     methods: {
+      getUser() {
+        var token = Cookies.get('token');
+        this.$api.get('/sso/user/token/' + token).then(res => {
+          if (res.data.code === 200) {
+            this.uid = res.data.uid;
+            console.log(res.data.data);
+          } else {
+            Cookies.remove('token');
+            Cookies.remove('user');
+            this.$message.error("请重新登录！");
+            this.$router.push({name: 'login'})
+          }
+        })
+      },
       getArticleList () {
         this.$api.get('/art/articles').then(res => {
           if (res.data.code === 200) {
