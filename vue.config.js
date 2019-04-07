@@ -66,6 +66,14 @@ module.exports = {
         pathRewrite: {
           '^/manager': ''
         }
+      },
+      '/per': {
+        target: 'http://localhost:8089/', //对应自己的接口
+        changeOrigin: true,
+        ws: true,
+        pathRewrite: {
+          '^/per': ''
+        }
       }
     }
   }

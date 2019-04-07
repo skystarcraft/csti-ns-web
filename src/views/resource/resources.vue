@@ -1,6 +1,6 @@
 <template>
   <div>
-
+    <div>我的喵币： {{score}}</div>
     <div id="res">
       <li v-for="resource in resources" @click="getOneRes(resource)">{{resource}}</li>
     </div>
@@ -17,6 +17,7 @@ import Cookies from "js-cookie";
         form: {
           search: ''
         },
+        score: ''
       }
     },
     mounted() {
@@ -29,7 +30,8 @@ import Cookies from "js-cookie";
         this.$api.get('/sso/user/token/' + token).then(res => {
           if (res.data.code === 200) {
             this.uid = res.data.uid;
-            console.log(res.data.data);
+            this.score = res.data.data.uintegral;
+            // console.log(res.data.data);
           } else {
             Cookies.remove('token');
             Cookies.remove('user');

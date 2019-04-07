@@ -13,6 +13,7 @@ import Resources from "./views/resource/resources"
 import Resource from "./views/resource/resource"
 import IRes from "./views/resource/ires.vue"
 import UploadRes from "./views/resource/uploadres.vue"
+import Myself from "./views/my/myself.vue"
 
 Vue.use(Router)
 
@@ -97,6 +98,11 @@ export default new Router({
       path: '/upload',
       name: 'upload',
       component: UploadRes
+    },
+    {
+      path: '/myself',
+      name: 'myself',
+      component: Myself
     },
   ]
 })

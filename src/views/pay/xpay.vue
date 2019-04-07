@@ -1,5 +1,6 @@
 <template>
   <div>
+    <div>我的喵币： {{score}}</div>
     <div id="pays">
       <li v-for="pay in pays" @click="alipay(pay)">{{pay}}</li>
     </div>
@@ -13,11 +14,13 @@ import Cookies from "js-cookie";
     data() {
       return {
         pays: null,
+        score: ''
       }
     },
     mounted() {
       this.getUser();
       this.getPayList();
+      this.updateToken();
     },
     methods: {
       getPayList () {
@@ -35,7 +38,8 @@ import Cookies from "js-cookie";
         this.$api.get('/sso/user/token/' + token).then(res => {
           if (res.data.code === 200) {
             this.uid = res.data.uid;
-            console.log(res.data.data);
+            this.score = res.data.data.uintegral;
+            // console.log(res.data.data);
           } else {
             Cookies.remove('token');
             Cookies.remove('user');
@@ -49,6 +53,20 @@ import Cookies from "js-cookie";
         var money = pay.rmb;
         this.$api.get('/pay/xpay/pay/' + uid + '/' + money).then(res => {
           this.$router.push({name: 'alipay', params: {data: res.data}});
+        })
+      },
+      updateToken() {
+        var token = Cookies.get('token');
+        this.$api.get('/sso/user/update/token/' + token).then(res => {
+          if (res.data.code === 200) {
+            this.uid = res.data.uid;
+            Cookies.remove('user');
+            Cookies.set('user', res.data.data.uid);
+            console.log(res.data.data);
+          } else {
+            // this.$message.error("请重新登录！");
+            console.log("更新token失败！");
+          }
         })
       }
     }

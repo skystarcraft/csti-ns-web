@@ -1,5 +1,6 @@
 <template>
   <div>
+    <div>我的喵币： {{score}}</div>
     <div id="resource" v-model="resource">
       <el-form ref="resource" :model="resource">
         <el-form-item>
@@ -51,7 +52,8 @@ import Cookies from "js-cookie";
           uid: '',
           comment_context: '',
           ctime: ''
-        }
+        },
+        score: ''
       }
     },
     mounted() {
@@ -95,6 +97,7 @@ import Cookies from "js-cookie";
           if (res.data.code === 200) {
             this.uid = res.data.uid;
             console.log(res.data.data);
+            this.score = res.data.data.uintegral;
           } else {
             Cookies.remove('token');
             Cookies.remove('user');
