@@ -7,7 +7,7 @@ import router from './router'
 import { Button, Select } from 'element-ui';
 import '@/assets/theme/index.css'
 import axios from 'axios'
-import Global from "./utils/global.js";
+import Global from "./utils/global_variable.js";
 import mavonEditor from 'mavon-editor';
 import 'mavon-editor/dist/css/index.css'
 

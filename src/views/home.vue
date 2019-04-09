@@ -58,7 +58,6 @@ import Cookies from "js-cookie";
         this.$api.get('/sso/user/token/' + token).then(res => {
           if (res.data.code === 200) {
             this.uid = res.data.uid;
-            console.log(res.data.data);
           } else {
             Cookies.remove('token');
             Cookies.remove('user');
