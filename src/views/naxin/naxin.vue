@@ -36,7 +36,7 @@ import Cookies from "js-cookie";
         var uid = Cookies.get('user');
         this.$api.get('/front/naxin/' + uid).then(res => {
           if (res.data.code === 200) {
-            this.$message({message: res.data.data, type: 'success'});
+            this.$message({message: res.data.msg, type: 'success'});
           } else {
             this.$message.error(res.data.msg);
           }

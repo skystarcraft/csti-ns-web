@@ -1,10 +1,14 @@
 <template>
   <div v-model="articles">
     <el-form ref="article" v-model="article">
-      <li v-for="article in articles">
-        {{article.article_title}}
+      <div v-for="article in articles">
+        <li>{{article.article_title}}</li>
+        <li>{{article.article_context}}</li>
+        <li>{{article.article_view}}</li>
+        <li>{{article.uid}}</li>
+        <li>{{article.adate}}</li>
         <el-button type="primary" @click.native="delArticle(article)">删除</el-button>
-      </li>
+      </div>
     </el-form>
   </div>
 </template>
@@ -23,7 +27,7 @@ import Cookies from "js-cookie";
           article_context: '',
           article_view: '',
           uid: '',
-          article_date: '',
+          adate: '',
         },
       }
     },
@@ -48,7 +52,6 @@ import Cookies from "js-cookie";
         this.$api.get('/sso/user/token/' + token).then(res => {
           if (res.data.code === 200) {
             this.uid = res.data.uid;
-            console.log(res.data.data);
           } else {
             Cookies.remove('token');
             Cookies.remove('user');
@@ -59,8 +62,9 @@ import Cookies from "js-cookie";
       },
       delArticle(article) {
         var uid = Cookies.get('user');
-        this.$api.get('/art/del/article/' + article.article_id).then(res => {
+        this.$api.get('/art/del/article/' + article.aid).then(res => {
           if (res.data.code === 200) {
+            this.$message({message: "删除成功!", type: 'success'});
             this.getArticle();
           } else {
             this.$message.error(res.data.msg);

@@ -8,10 +8,17 @@
       </div>
       <div id="article_context" >
         <el-form-item>
-          <mavon-editor ref=md @imgAdd="$imgAdd" @imgDel="$imgDel" v-model="article.article_context" ></mavon-editor>
+          <mavon-editor style="height:600px" ref=md @imgAdd="$imgAdd" @imgDel="$imgDel" v-model="article.article_context" ></mavon-editor>
         </el-form-item>
-
       </div>
+      <el-select v-model="value" placeholder="请选择">
+       <el-option
+         v-for="item in options"
+         :key="item.value"
+         :label="item.label"
+         :value="item.value">
+       </el-option>
+     </el-select>
       <el-form-item size="large" class="me-login-button">
         <el-button type="primary" @click.native="writeArticle(article)">发布文章</el-button>
       </el-form-item>
@@ -26,19 +33,22 @@ import Cookies from "js-cookie";
     data() {
       return {
         article: {
-          article_id: null,
-          article_title: null,
+          aid: null,
+          article_title: '',
           article_context: '',
-          article_view: null,
+          article_view: 0,
           uid: null,
-          article_date: null,
+          adate: null,
         },
         value: '',
-        img_file: {}
+        img_file: {},
+        options: [],
+        value: ''
       }
     },
     mounted() {
-      this.getUser()
+      this.getUser();
+      this.getTags();
     },
     methods: {
       writeArticle(article) {
@@ -49,9 +59,10 @@ import Cookies from "js-cookie";
           uid: uid
         }).then(res => {
           if (res.data.code === 200) {
-            this.$message(res.data.msg);
+            this.$message({message: res.data.msg, type: 'success'});
             console.log(res.data.data);
             this.addSearch(res.data.data);
+            this.addTag(res.data.data);
           } else {
             this.$message.error(res.data.msg);
           }
@@ -62,7 +73,6 @@ import Cookies from "js-cookie";
         this.$api.get('/sso/user/token/' + token).then(res => {
           if (res.data.code === 200) {
             this.uid = res.data.uid;
-            console.log(res.data.data);
           } else {
             Cookies.remove('token');
             Cookies.remove('user');
@@ -79,17 +89,34 @@ import Cookies from "js-cookie";
        },
        addSearch(article) {
          this.$api.post('/es/addes',{
-           article_id: article.article_id,
+           aid: article.aid,
            article_title: article.article_title,
-           article_context: article.article_title,
-           article_view: article.article_title,
-           uid: article.article_title,
-           article_date: article.article_title
+           article_context: article.article_context,
+           article_view: article.article_view,
+           uid: article.uid,
+           adate: article.adate
          }).then(res => {
            if (res.data.code === 200) {
              console.log(res.data.msg);
            } else {
              console.log(res.data.msg);
+           }
+         })
+       },
+       addTag(article) {
+         let aid = article.aid;
+         let tid = this.value
+         this.$api.get('/art/art/' + aid + '/tag/' + tid).then(res => {
+           console.log(res.data.msg);
+         })
+       },
+       getTags() {
+         this.$api.get('/art/tags').then(res => {
+           if (res.data.code === 200) {
+              this.options = res.data.data;
+
+           } else {
+             this.$message.error(res.data.msg);
            }
          })
        }

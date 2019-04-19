@@ -5,11 +5,13 @@
       <li>{{article.article_context}}</li>
       <li>{{article.article_view}}</li>
       <li>{{article.uid}}</li>
-      <li>{{article.article_date}}</li>
+      <li>{{article.adate}}</li>
     </div>
     <div id="comments">
       <li v-for="comment in comments">{{comment}}</li>
     </div>
+
+    <el-button type="primary" :icon='icon' @click="collectionArticles()" v-model='icon'></el-button>
 
     <el-form ref="comment" :model="comment">
         <el-form-item>
@@ -35,7 +37,7 @@ import Cookies from "js-cookie";
           article_context: '',
           article_view: '',
           uid: '',
-          article_date: '',
+          adate: '',
         },
         comments: null,
         comment: {
@@ -43,7 +45,9 @@ import Cookies from "js-cookie";
           uid: '',
           article_context: '',
           cdate: ''
-        }
+        },
+        icon: 'el-icon-star-off',
+        collection: false
       }
     },
     mounted() {
@@ -54,16 +58,26 @@ import Cookies from "js-cookie";
     methods: {
       getArticle() {
         var isFordward = this.$route.params.fordward;
-        var aid = this.$route.params.article_id;
+        var aid = this.$route.params.aid;
         this.$api.get('/art/article/' + aid).then(res => {
           if (res.data.code === 200) {
-            this.article.aid = res.data.data.article_id;
+            this.article.aid = res.data.data.aid;
             this.article.article_title = res.data.data.article_title;
             this.article.article_context = res.data.data.article_context;
             this.article.article_view = res.data.data.article_view;
             this.article.uid = res.data.data.uid;
-            this.article.article_date = res.data.data.article_date;
-            console.log(res.data.data);
+            this.article.adate = res.data.data.adate;
+            let uid = Cookies.get('user');
+            let arid = this.article.aid;
+            this.$api.get('/per/iscollection/' + uid + '/' + arid).then(res => {
+              if (res.data.code === 200) {
+                this.collection = true;
+                this.icon = 'el-icon-star-on';
+              } else {
+                this.collection = false;
+                this.icon = 'el-icon-star-off';
+              }
+            })
           } else {
             this.$message.error(res.data.msg);
             article = null;
@@ -72,7 +86,7 @@ import Cookies from "js-cookie";
       },
       getComments() {
         var isFordward = this.$route.params.fordward;
-        var aid = this.$route.params.article_id;
+        var aid = this.$route.params.aid;
         this.$api.get('/acom/comment/' + aid).then(res => {
           if (res.data.code === 200) {
             this.comments = res.data.data;
@@ -87,7 +101,6 @@ import Cookies from "js-cookie";
         this.$api.get('/sso/user/token/' + token).then(res => {
           if (res.data.code === 200) {
             this.uid = res.data.uid;
-            console.log(res.data.data);
           } else {
             Cookies.remove('token');
             Cookies.remove('user');
@@ -109,6 +122,44 @@ import Cookies from "js-cookie";
             // console.log(res.data.data);
           } else {
             this.$message.error(res.data.msg);
+          }
+        })
+      },
+      collectionArticles() {
+        let uid = Cookies.get('user');
+        let aid = this.article.aid;
+        if (this.collection) {
+          this.$api.delete('/per/collection/' + uid + '/' + aid).then(res => {
+            if (res.data.code === 200) {
+              this.collection = false;
+              this.$message({message: res.data.msg, type: 'success'});
+              this.icon = 'el-icon-star-off';
+            } else {
+              this.$message.error(res.data.msg);
+            }
+        })
+      } else {
+          this.$api.get('/per/collection/' + uid + '/' + aid).then(res => {
+            if (res.data.code === 200) {
+              this.collection = true;
+              this.$message({message: res.data.msg, type: 'success'});
+              this.icon = 'el-icon-star-on';
+            } else {
+              this.$message.error(res.data.msg);
+            }
+          })
+        }
+      },
+      isCollection() {
+        let uid = Cookies.get('user');
+        let arid = this.article.aid;
+        this.$api.get('/per/iscollection/' + uid + '/' + arid).then(res => {
+          if (res.data.code === 200) {
+            this.collection = true;
+            this.icon = 'el-icon-star-on';
+          } else {
+            this.collection = false;
+            this.icon = 'el-icon-star-off';
           }
         })
       }

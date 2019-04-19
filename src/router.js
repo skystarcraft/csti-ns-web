@@ -15,6 +15,7 @@ import IRes from "./views/resource/ires.vue"
 import UploadRes from "./views/resource/uploadres.vue"
 import Myself from "./views/my/myself.vue"
 import Naxin from "./views/naxin/naxin.vue"
+import Collection from "./views/articles/myCollection.vue"
 
 Vue.use(Router)
 
@@ -160,6 +161,13 @@ export default new Router({
       path: '/naxin',
       name: 'naxin',
       component: Naxin,
+      meta: {
+        keepAlive: true
+      }
+    },{
+      path: '/collection',
+      name: 'collection',
+      component: Collection,
       meta: {
         keepAlive: true
       }

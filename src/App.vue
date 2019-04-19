@@ -102,7 +102,15 @@ export default {
                 alias: "我的文章",
                 value: "/i/article/"
               }
-            },
+            },  {
+                entity: {
+                  id: 14,
+                  name: "/collection",
+                  icon: "el-icon-bell",
+                  alias: "我的收藏",
+                  value: "/i/article/"
+                }
+              },
           ]
         },
 

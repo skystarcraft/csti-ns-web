@@ -1,12 +1,5 @@
 <template>
   <div>
-    <div id="search">
-      <el-form ref="form" :model="form">
-        <el-input v-model="form.search" placeholder="请输入搜索内容"
-                  suffix-icon="el-icon-search" style="width: 40%"></el-input>
-        <el-button type="primary" @click.native="searchArticle(form)">搜索</el-button>
-      </el-form>
-    </div>
     <div id="articles">
       <li v-for="article in articles" @click="getOneArticle(article)">{{article}}</li>
     </div>
@@ -16,7 +9,7 @@
 <script>
 import Cookies from "js-cookie";
   export default {
-    name: 'Articles',
+    name: 'Collection',
     data() {
       return {
         articles: null,
@@ -26,7 +19,7 @@ import Cookies from "js-cookie";
       }
     },
     mounted() {
-    this.getUser();
+      this.getUser();
       this.getArticleList();
     },
     methods: {
@@ -35,6 +28,7 @@ import Cookies from "js-cookie";
         this.$api.get('/sso/user/token/' + token).then(res => {
           if (res.data.code === 200) {
             this.uid = res.data.uid;
+            console.log(res.data.data);
           } else {
             Cookies.remove('token');
             Cookies.remove('user');
@@ -44,7 +38,8 @@ import Cookies from "js-cookie";
         })
       },
       getArticleList () {
-        this.$api.get('/art/articles').then(res => {
+        var user = Cookies.get('user');
+        this.$api.get('/art/my/collection/' + user).then(res => {
           if (res.data.code === 200) {
             this.articles = res.data.data;
             // console.log(res.data.data);
@@ -56,20 +51,6 @@ import Cookies from "js-cookie";
       getOneArticle(article) {
         this.$router.push({name: 'article',params: {aid: article.aid, fordward: true}})
       },
-      searchArticle(form) {
-        if (form.search === '') {
-          window.location.reload();
-        } else{
-          this.$api.get('/es/select/' + form.search).then(res => {
-            if (res.data.code === 200) {
-              this.articles = res.data.data;
-              // console.log(res.data.data);
-            } else {
-              articles = res.data.msg;
-            }
-          })
-        }
-      }
     }
   }
 </script>
