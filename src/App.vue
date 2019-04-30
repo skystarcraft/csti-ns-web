@@ -1,34 +1,59 @@
 <template>
-  <div id="app">
-   <div v-if="$route.meta.keepAlive">
-      <el-menu
-        mode="horizontal"
-        background-color="#545c64"
-        text-color="#fff"
-        active-text-color="#ffd04b"
-        :default-active="activeIndex"
-        router
-      >
-        <NavMenu :navMenus="menuData"></NavMenu>
-        <el-menu-item>
-          <div v-show="show" v-model='user'>
-            <span>
-              <img :src="user.avatar" height="50" width="50" style="border-radius:50%;" v-model='user.avatar'/>
-            </span>
-            <span v-model='user.name'>
-              {{user.name}}
-            </span>
-            <span  @click="logout()">
-              注销
-            </span>
-          </div>
-        </el-menu-item>
-      </el-menu>
+ <div id="app">
+  <el-container style="height:100%">
+    <el-aside v-if="$route.meta.keepAlive">
+      <div id="bg">
+        <div class="">
 
-    </div>
+        </div>
+        <div id="clock">
+          <p class="date" v-model='date'>{{ date }}</p>
+          <p class="time" v-model='time'>{{ time }}</p>
+        </div>
+      </div>
+    </el-aside>
+    <el-container style="height:100%" direction="vertical">
+    <el-header style="width: 100%;height: 10%;padding: 0px">
+       <div v-if="$route.meta.keepAlive">
+          <el-menu
+            mode="horizontal"
+            background-color="#54d9e0"
+            text-color="#fff"
+            active-text-color="#ffd04b"
+            :default-active="activeIndex"
+            router
+          >
+            <NavMenu :navMenus="menuData"></NavMenu>
+            <el-menu-item style="float:right">
+              <div v-show="show" v-model='user'>
+                <el-dropdown>
+                  <span>
+                    <img :src="user.avatar" height="50" width="50" style="border-radius:50%;" v-model='user.avatar'/>
+                  </span>
+                  <span v-model='user.name' style="color: white">
+                    {{user.name}}
+                  </span>
+                  <el-dropdown-menu slot="dropdown">
+                    <el-dropdown-item @click.native="open('iArticle')">我的文章</el-dropdown-item>
+                    <el-dropdown-item @click.native="open('collection')">我的收藏</el-dropdown-item>
+                    <el-dropdown-item @click.native="open('iRes')">我的资源</el-dropdown-item>
+                    <el-dropdown-item @click.native="open('myself')">个人信息</el-dropdown-item>
+                    <el-dropdown-item @click.native="logout()">注销</el-dropdown-item>
+                  </el-dropdown-menu>
+                </el-dropdown>
+              </div>
+            </el-menu-item>
+          </el-menu>
+         </div>
+        <router-view v-if="isRouterAlive"></router-view>
+       </el-header>
 
-    <router-view v-if="isRouterAlive"></router-view>
-  </div>
+       <el-footer v-if="$route.meta.keepAlive">
+         <div>CSTI</div>
+       </el-footer>
+     </el-container>
+  </el-container>
+ </div>
 </template>
 
 <script>
@@ -48,6 +73,9 @@ export default {
   },
   data(){
     return{
+      time: '',
+      date: '',
+      week: ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT'],
       show: true,
       user: {
         avatar: '',
@@ -94,23 +122,6 @@ export default {
                 value: "/write/article/"
               }
             },
-            {
-              entity: {
-                id: 4,
-                name: "/i/article",
-                icon: "el-icon-bell",
-                alias: "我的文章",
-                value: "/i/article/"
-              }
-            },  {
-                entity: {
-                  id: 14,
-                  name: "/collection",
-                  icon: "el-icon-bell",
-                  alias: "我的收藏",
-                  value: "/i/article/"
-                }
-              },
           ]
         },
 
@@ -140,15 +151,6 @@ export default {
                 icon: "el-icon-bell",
                 alias: "上传资源",
                 value: "/upload"
-              }
-            },
-            {
-              entity: {
-                id: 8,
-                name: "/i/res/",
-                icon: "el-icon-bell",
-                alias: "我的资源",
-                value: "/i/res/"
               }
             },
           ]
@@ -197,21 +199,16 @@ export default {
             },
           ]
         },
-
-        {
-          //一级
-          entity: {
-            id: 13,
-            name: "/myself",
-            icon: "el-icon-message",
-            alias: "个人信息"
-          }
-        },
       ]
     }
   },
-  mounted(){
+  created(){
     this.getUser()
+    setInterval(()=> {
+      var cd = new Date();
+      this.time = this.zeroPadding(cd.getHours(), 2) + ':' + this.zeroPadding(cd.getMinutes(), 2) + ':' + this.zeroPadding(cd.getSeconds(), 2);
+      this.date = this.zeroPadding(cd.getFullYear(), 4) + '-' + this.zeroPadding(cd.getMonth()+1, 2) + '-' + this.zeroPadding(cd.getDate(), 2) + ' ' + this.week[cd.getDay()];
+    }, 1000);
   },
   methods:{
     reload(){
@@ -224,9 +221,6 @@ export default {
       var token = Cookies.get('token');
       this.$api.get('/sso/user/token/' + token).then(res => {
         if (res.data.code === 200) {
-          this.user.avatar = res.data.data.user_image;
-          this.user.name = res.data.data.user_name;
-          this.show = true;
         } else {
           Cookies.remove('token');
           Cookies.remove('user');
@@ -234,16 +228,31 @@ export default {
           this.$router.push({name: 'login'})
         }
       })
+      this.user.avatar = localStorage.user_image;
+      this.user.name = localStorage.user_name;
     },
     logout() {
       var token = Cookies.get('token');
       this.$api.get('/sso/user/logout/' + token).then(res => {
           Cookies.remove('token');
           Cookies.remove('user');
+          localStorage.setItem('setUser_image', '')
+          localStorage.setItem('setUser_name', '')
+          this.$store.commit('remove')
           this.$router.push({name: 'login'});
       })
     },
-  }
+    open(route) {
+      this.$router.push({name: route});
+    },
+    zeroPadding(num, digit) {
+        var zero = '';
+        for(var i = 0; i < digit; i++) {
+            zero += '0';
+        }
+        return (zero + num).slice(-digit);
+    }
+  },
 };
 </script>
 
@@ -251,12 +260,59 @@ export default {
 *{
   outline:none;
 }
+body {
+  margin: 0px;
+}
 #app {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  margin-top: 60px;
+  margin-top: 0px;
 }
+.el-menu li {
+    list-style: none;
+    width: 15%;
+}
+.el-submenu__title {
+    font-size: 14px;
+    color: #303133;
+    -webkit-transition: border-color .3s,background-color .3s,color .3s;
+    transition: border-color .3s,background-color .3s,color .3s;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+}
+#bg {
+  height: 100%;
+  width: 99%;
+  background: #545c64;
+}
+  #clock {
+    font-family: 'Share Tech Mono', monospace;
+    height: 100%;
+    background-size: 100%;
+    color: #ffffff;
+    text-align: center;
+    position: absolute;
+    left: 10%;
+    top: 65%;
+    -webkit-transform: translate(-50%, -50%);
+            transform: translate(-50%, -50%);
+    text-shadow: 0 0 20px #0aafe6, 0 0 20px rgba(10, 175, 230, 0);
+  }
+  #clock .time {
+    letter-spacing: 0.05em;
+    font-size: 40px;
+    padding: 5px 0;
+  }
+  #clock .date {
+    letter-spacing: 0.1em;
+    font-size: 24px;
+  }
+  #clock .text {
+    letter-spacing: 0.1em;
+    font-size: 12px;
+    padding: 20px 0 0;
+  }
 </style>

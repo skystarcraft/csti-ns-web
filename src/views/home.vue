@@ -1,4 +1,6 @@
 <template>
+  <el-container style="height: 100%">
+  <el-main>
   <div>
     <div id="front">
       {{front}}
@@ -9,6 +11,8 @@
       </li>
     </div>
   </div>
+  </el-main>
+  </el-container>
 </template>
 
 <script>

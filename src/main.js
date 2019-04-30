@@ -10,6 +10,7 @@ import axios from 'axios'
 import Global from "./utils/global_variable.js";
 import mavonEditor from 'mavon-editor';
 import 'mavon-editor/dist/css/index.css'
+import store from './utils/store'
 
 Vue.use(mavonEditor)
 Vue.use(ElementUI)
@@ -24,5 +25,6 @@ Vue.use(Global)
 new Vue({
   el: '#app',
   render: h => h(App),
+  store,
   router,
 }).$mount('#app')

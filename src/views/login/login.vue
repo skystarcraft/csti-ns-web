@@ -10,15 +10,15 @@
         </el-form-item>
 
         <el-form-item prop="password">
-          <el-input placeholder="密码" type="password" v-model="userForm.user_password"></el-input>
+          <el-input placeholder="密码" type="password" v-model="userForm.user_password" @keyup.enter.native="login(userForm)"></el-input>
         </el-form-item>
 
         <el-form-item size="small" class="me-login-button">
-          <el-button type="primary" @click.native="login(userForm)">登录</el-button>
+          <el-button type="primary" @click.native="login(userForm)" plain style="background:#409EFF" >登录</el-button>
         </el-form-item>
 
         <el-form-item size="small" class="me-login-button">
-          <el-button type="primary" @click.native="register()">注册</el-button>
+          <el-button type="primary" @click.native="register()" plain style="background:#409EFF">注册</el-button>
         </el-form-item>
       </el-form>
 
@@ -69,6 +69,14 @@ import Cookies from "js-cookie";
             Cookies.set('user', userForm.uid);
             // console.log('token ' + Cookies.get('token'));
             this.$message({message: "登录成功!", type: 'success'});
+            this.$api.get('/sso/user/token/' + res.data.data).then(r => {
+              if (res.data.code === 200) {
+                this.$store.commit('setUser_image', r.data.data.user_image);
+                this.$store.commit('setUser_name', r.data.data.user_name)
+                localStorage.setItem('setUser_image', r.data.data.user_image)
+                localStorage.setItem('setUser_name', r.data.data.user_name)
+              }
+            });
             this.$router.push({name: 'index'});
           } else {
             this.$message.error(res.data.data);
@@ -87,24 +95,11 @@ import Cookies from "js-cookie";
     min-width: 100%;
     min-height: 100%;
   }
-
-  .me-video-player {
-    background-color: transparent;
-    width: 100%;
-    height: 100%;
-    object-fit: fill;
-    display: block;
-    position: absolute;
-    left: 0;
-    z-index: 0;
-    top: 0;
-  }
-
   .me-login-box {
     position: absolute;
     width: 300px;
     height: 260px;
-    background-color: white;
+    background-color: #F2F6FC;
     margin-top: 150px;
     margin-left: -180px;
     left: 50%;
@@ -130,7 +125,7 @@ import Cookies from "js-cookie";
   }
 
   .me-login-design-color {
-    color: #5FB878 !important;
+    color: #409EFF !important;
   }
 
   .me-login-button {
@@ -140,5 +135,27 @@ import Cookies from "js-cookie";
   .me-login-button button {
     width: 100%;
   }
-
+  .el-button--primary.is-plain {
+      color: #FFF;
+      background: rgb(239, 248, 242);
+      border-color: rgb(191, 227, 201);
+  }
+  .el-input__inner {
+    -webkit-appearance: none;
+    background-color: #fff;
+    border-radius: 4px;
+    border: 1px solid #409EFF;
+    -webkit-box-sizing: border-box;
+    box-sizing: border-box;
+    color: #606266;
+    display: inline-block;
+    font-size: inherit;
+    height: 40px;
+    line-height: 1;
+    outline: 0;
+    padding: 0 15px;
+    -webkit-transition: border-color .2s cubic-bezier(.645,.045,.355,1);
+    transition: border-color .2s cubic-bezier(.645,.045,.355,1);
+    width: 100%;
+}
 </style>
