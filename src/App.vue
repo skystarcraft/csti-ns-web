@@ -4,7 +4,7 @@
     <el-aside v-if="$route.meta.keepAlive">
       <div id="bg">
         <div class="">
-
+           <img src="./assets/qrcode.png" />
         </div>
         <div id="clock">
           <p class="date" v-model='date'>{{ date }}</p>
@@ -17,7 +17,8 @@
        <div v-if="$route.meta.keepAlive">
           <el-menu
             mode="horizontal"
-            background-color="#54d9e0"
+            @select="handleSelect"
+            background-color="#3B99FC"
             text-color="#fff"
             active-text-color="#ffd04b"
             :default-active="activeIndex"
