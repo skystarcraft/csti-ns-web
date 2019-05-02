@@ -1,5 +1,5 @@
 <template>
-  <div id="article">
+  <div style="margin: 10px 20px">
     <el-form ref="article" :model="article">
       <div id="article_title">
         <el-form-item>

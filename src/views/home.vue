@@ -3,12 +3,18 @@
   <el-main>
   <div>
     <div id="front">
-      {{front}}
+      <div style="width: 80%; text-align:left;">
+        {{front.introduction}}
+      </div>
     </div>
     <div id="links">
-      <li v-for="link in links" @click=gotoAddr(link)>
-        {{link.link_name}}
-      </li>
+      <el-row :gutter="12">
+        <el-col v-for="link in links" @click.native='gotoAddr(link)' :key="link.link_name" :span="4">
+          <el-card class="model_page" shadow="hover">
+            {{link.link_name}}
+          </el-card>
+        </el-col>
+      </el-row>
     </div>
   </div>
   </el-main>
@@ -57,6 +63,9 @@ import Cookies from "js-cookie";
           }
         })
       },
+      test () {
+        console.log(111)
+      },
       getUser() {
         var token = Cookies.get('token');
         this.$api.get('/sso/user/token/' + token).then(res => {
@@ -76,3 +85,22 @@ import Cookies from "js-cookie";
     }
   }
 </script>
+
+<style>
+#links {
+  margin-top: 16px;
+}
+  #front {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 500px;
+    margin-bottom: 40px;
+    background: url('../img/摄图网_400062210.jpg');
+    font-size: 25px;
+    color: aliceblue;
+    line-height: 60px;
+    font-family: '幼圆';
+  }
+</style>
+

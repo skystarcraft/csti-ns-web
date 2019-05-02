@@ -1,59 +1,56 @@
 <template>
  <div id="app">
-  <el-container style="height:100%">
-    <el-aside v-if="$route.meta.keepAlive">
-      <div id="bg">
-        <div class="">
-           <img src="./assets/qrcode.png" />
-        </div>
-        <div id="clock">
-          <p class="date" v-model='date'>{{ date }}</p>
-          <p class="time" v-model='time'>{{ time }}</p>
+  <div>
+    <div style="display:flex; width: 100%;" direction="vertical">
+      <div style="width: 16%;" v-if="$route.meta.keepAlive">
+        <div id="bg">
+          <img src="./assets/qrcode.png" />
+          <div id="clock">
+            <p class="date" v-model='date'>{{ date }}</p>
+            <p class="time" v-model='time'>{{ time }}</p>
+          </div>
         </div>
       </div>
-    </el-aside>
-    <el-container style="height:100%" direction="vertical">
-    <el-header style="width: 100%;height: 10%;padding: 0px">
-       <div v-if="$route.meta.keepAlive">
-          <el-menu
-            mode="horizontal"
-            @select="handleSelect"
-            background-color="#3B99FC"
-            text-color="#fff"
-            active-text-color="#ffd04b"
-            :default-active="activeIndex"
-            router
-          >
-            <NavMenu :navMenus="menuData"></NavMenu>
-            <el-menu-item style="float:right">
-              <div v-show="show" v-model='user'>
-                <el-dropdown>
-                  <span>
-                    <img :src="user.avatar" height="50" width="50" style="border-radius:50%;" v-model='user.avatar'/>
-                  </span>
-                  <span v-model='user.name' style="color: white">
-                    {{user.name}}
-                  </span>
-                  <el-dropdown-menu slot="dropdown">
-                    <el-dropdown-item @click.native="open('iArticle')">我的文章</el-dropdown-item>
-                    <el-dropdown-item @click.native="open('collection')">我的收藏</el-dropdown-item>
-                    <el-dropdown-item @click.native="open('iRes')">我的资源</el-dropdown-item>
-                    <el-dropdown-item @click.native="open('myself')">个人信息</el-dropdown-item>
-                    <el-dropdown-item @click.native="logout()">注销</el-dropdown-item>
-                  </el-dropdown-menu>
-                </el-dropdown>
-              </div>
-            </el-menu-item>
-          </el-menu>
-         </div>
-        <router-view v-if="isRouterAlive"></router-view>
-       </el-header>
-
-       <el-footer v-if="$route.meta.keepAlive">
-         <div>CSTI</div>
-       </el-footer>
-     </el-container>
-  </el-container>
+      <div style="width: 88%">
+        <el-header style="width: 100%;height: 10%;padding: 0px">
+        <div v-if="$route.meta.keepAlive">
+            <el-menu
+              mode="horizontal"
+              background-color="#3B99FC"
+              text-color="#fff"
+              active-text-color="#2676E3"
+              :default-active="activeIndex"
+              router
+            >
+              <NavMenu :navMenus="menuData"></NavMenu>
+              <el-menu-item style="float:right">
+                <div v-show="show" v-model='user'>
+                  <el-dropdown>
+                    <span>
+                      <img :src="user.avatar" height="50" width="50" style="border-radius:50%;" v-model='user.avatar'/>
+                    </span>
+                    <span v-model='user.name' style="color: white">
+                      {{user.name}}
+                    </span>
+                    <el-dropdown-menu slot="dropdown">
+                      <el-dropdown-item @click.native="open('iArticle')">我的文章</el-dropdown-item>
+                      <el-dropdown-item @click.native="open('collection')">我的收藏</el-dropdown-item>
+                      <el-dropdown-item @click.native="open('iRes')">我的资源</el-dropdown-item>
+                      <el-dropdown-item @click.native="open('myself')">个人信息</el-dropdown-item>
+                      <el-dropdown-item @click.native="logout()">注销</el-dropdown-item>
+                    </el-dropdown-menu>
+                  </el-dropdown>
+                </div>
+              </el-menu-item>
+            </el-menu>
+          </div>
+        </el-header>
+          <router-view style="min-height: 676px" class="clear" v-if="isRouterAlive"></router-view>
+      </div>
+     </div>
+     <div style='clear:both'></div>
+  </div>
+  <div class="footer" v-if="$route.meta.keepAlive">©CSTI 版权所有</div>
  </div>
 </template>
 
@@ -262,7 +259,8 @@ export default {
   outline:none;
 }
 body {
-  margin: 0px;
+  margin: 0;
+  padding: 0;
 }
 #app {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
@@ -270,7 +268,8 @@ body {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  margin-top: 0px;
+  /* height: 90px; */
+  /* margin-top: 0px; */
 }
 .el-menu li {
     list-style: none;
@@ -286,18 +285,20 @@ body {
 }
 #bg {
   height: 100%;
-  width: 99%;
+  padding: 50px 0;
+  width: 100%;
   background: #545c64;
+   z-index: 1;
 }
   #clock {
     font-family: 'Share Tech Mono', monospace;
-    height: 100%;
+    /* height: 100%; */
     background-size: 100%;
     color: #ffffff;
     text-align: center;
     position: absolute;
-    left: 10%;
-    top: 65%;
+    left: 8%;
+    top: 30%;
     -webkit-transform: translate(-50%, -50%);
             transform: translate(-50%, -50%);
     text-shadow: 0 0 20px #0aafe6, 0 0 20px rgba(10, 175, 230, 0);
@@ -315,5 +316,19 @@ body {
     letter-spacing: 0.1em;
     font-size: 12px;
     padding: 20px 0 0;
+  }
+  .clear{ clear:both}
+  .footer {
+    height: 100px;
+    width: 100%;
+    margin-top: 100px;
+    color: #ccc;
+    line-height: 80px;
+
+    position: absolute;
+    font-size: 12px;
+    z-index: 3;
+    /* bottom: 0; */
+    background-color: #303133;
   }
 </style>

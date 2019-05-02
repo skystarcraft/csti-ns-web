@@ -5,14 +5,14 @@
       <el-menu-item v-if="!navMenu.childs&&navMenu.entity"
                     :key="navMenu.entity.id" :data="navMenu" :index="navMenu.entity.name"
                    >
-        <i :class="navMenu.entity.icon"></i>
+        <!-- <i :class="navMenu.entity.icon"></i> -->
         <span slot="title">{{navMenu.entity.alias}}</span>
       </el-menu-item>
 
       <el-submenu v-if="navMenu.childs&&navMenu.entity"
                   :key="navMenu.entity.id" :data="navMenu" :index="navMenu.entity.name">
         <template slot="title">
-          <i :class="navMenu.entity.icon"></i>
+          <!-- <i :class="navMenu.entity.icon"></i> -->
           <span> {{navMenu.entity.alias}}</span>
         </template>
 

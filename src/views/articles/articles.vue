@@ -1,14 +1,22 @@
 <template>
   <div>
-    <div id="search">
+    <div>
       <el-form ref="form" :model="form">
         <el-input v-model="form.search" placeholder="请输入搜索内容"
                   suffix-icon="el-icon-search" style="width: 40%"></el-input>
         <el-button type="primary" @click.native="searchArticle(form)">搜索</el-button>
       </el-form>
     </div>
-    <div id="articles">
-      <li v-for="article in articles" @click="getOneArticle(article)">{{article}}</li>
+    <div>
+      <div style="text-align: left;margin-left: 180px;">
+        <div class="eachArticle" v-for="article in articles" :key="article.adate" @click="getOneArticle(article)">
+          <h3>{{article.article_title}}</h3>
+          <div style="display:flex;color: #ccc">
+            <div>{{article.adate}}</div>
+            <div style="margin-left: auto;">阅读：{{article.article_view}}</div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </template>
@@ -73,3 +81,19 @@ import Cookies from "js-cookie";
     }
   }
 </script>
+
+<style>
+#article {
+  height: 500px;
+  width: 1400px;
+  margin-top: 30px;
+  /* margin: 10px; */
+}
+.eachArticle {
+  /* height: 50px;
+  width: 800px; */
+  margin-top: 20px;
+  padding: 10px;
+  /* background-color: aqua; */
+}
+</style>
