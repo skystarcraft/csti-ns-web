@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div style="padding: 0 100px">
   <el-form ref="user" :model="user" :rules="rules">
     <el-form-item prop="uid">
       <el-input placeholder="学号" v-model="user.uid" v-bind:disabled="id===0"></el-input>

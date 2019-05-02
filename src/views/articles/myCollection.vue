@@ -1,8 +1,19 @@
 <template>
   <div>
-    <div id="articles">
-      <li v-for="article in articles" @click="getOneArticle(article)">{{article}}</li>
+    <div>
+      <div style="text-align: left;padding:0 180px;">
+        <div class="eachArticle" v-for="article in articles" :key="article.adate" @click="getOneArticle(article)">
+          <h3>{{article.article_title}}</h3>
+          <div style="display:flex;color: #ccc">
+            <div>{{article.adate}}</div>
+            <div style="margin-left: auto;">阅读：{{article.article_view}}</div>
+          </div>
+        </div>
+      </div>
     </div>
+    <!-- <div id="articles">
+      <li v-for="article in articles" @click="getOneArticle(article)">{{article}}</li>
+    </div> -->
   </div>
 </template>
 

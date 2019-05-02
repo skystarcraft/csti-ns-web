@@ -1,8 +1,19 @@
 <template>
-  <div>
-    <div>我的喵币： {{score}}</div>
-    <div id="pays">
+  <div style="text-align:left;padding-left:150px">
+    <div id="myCount">我的喵币： {{score}}</div>
+    <!-- <div id="pays">
       <li v-for="pay in pays" @click="alipay(pay)">{{pay}}</li>
+    </div> -->
+    <div id="links">
+      <el-row :gutter="12">
+        <el-col v-for="pay in pays" @click.native="alipay(pay)" :key="pay.integral_id" :span="4">
+          <el-card class="model_page" shadow="hover">
+            <div>{{pay.rmb}}元</div>
+            <div style="margin-top:10px">=</div>
+            <h3>{{pay.radd}}喵币</h3>
+          </el-card>
+        </el-col>
+      </el-row>
     </div>
   </div>
 </template>
@@ -72,3 +83,13 @@ import Cookies from "js-cookie";
     }
   }
 </script>
+
+<style>
+#myCount {
+    height: 50px;
+    color: rgb(53, 168, 97);
+    font-size: 18px;
+    font-weight: 600;
+  }
+</style>
+

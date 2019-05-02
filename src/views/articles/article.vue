@@ -1,26 +1,44 @@
 <template>
-  <div>
-    <div id="article" v-model="article">
-      <li>{{article.article_title}}</li>
-      <li>{{article.article_context}}</li>
-      <li>{{article.article_view}}</li>
-      <li>{{article.uid}}</li>
-      <li>{{article.adate}}</li>
+  <div id="article">
+    <div  v-model="article">
+      <div style="display:flex;align-items: center;">
+        <h1>{{article.article_title}}</h1>
+        <el-button style="margin-left: auto;height: 40px" type="primary" :icon='icon' @click="collectionArticles()" v-model='icon'></el-button>
+      </div>
+      <div class="info">
+        <div>作者：{{article.uid}}</div>
+        <div style="margin-left:auto">
+          <span>发布时间：{{article.adate}}</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+          <span> 阅读量：{{article.article_view}}</span>
+        </div>
+      </div>
+      <hr>
+      <div class="content">{{article.article_context}}</div>
     </div>
-    <div id="comments">
-      <li v-for="comment in comments">{{comment}}</li>
+    <hr>
+    <br>
+    <div>
+      <h3>评论</h3>
+      <br>
+      <div v-if="comments">
+        <div style="display:flex;align-items: center;margin:20px 0" :key="comment.cdate" v-for="comment in comments">
+          <div style="margin-right:14px;">{{comment.uid}}:</div>
+          <div style="font-weight:600;">{{comment.article_context}}</div>
+          <div style="margin-left:auto;font-size:12px">{{comment.cdate}}</div>
+        </div>
+      </div>
+      <div style="text-align: center;margin: 20px 0" v-else>
+        暂无评论哦
+      </div>
+      <div style="margin-top: 50px">
+          <el-input type="textarea" rows="6" placeholder="说点什么吧~" v-model="comment.article_context"></el-input>
+          <el-button style="float:right;margin-top:10px" type="primary" @click.native="writeComment(comment)">发布评论</el-button>
+      </div>
     </div>
+    
 
-    <el-button type="primary" :icon='icon' @click="collectionArticles()" v-model='icon'></el-button>
 
-    <el-form ref="comment" :model="comment">
-        <el-form-item>
-          <el-input placeholder="发布评论" v-model="comment.article_context"></el-input>
-        </el-form-item>
-      <el-form-item size="large" class="me-login-button">
-        <el-button type="primary" @click.native="writeComment(comment)">发布评论</el-button>
-      </el-form-item>
-    </el-form>
+    
 
   </div>
 </template>
@@ -117,7 +135,7 @@ import Cookies from "js-cookie";
           uid: uid
         }).then(res => {
           if (res.data.code === 200) {
-            this.$message(res.data.msg);
+            this.$message.success(res.data.msg);
             this.getComments();
             // console.log(res.data.data);
           } else {
@@ -166,3 +184,24 @@ import Cookies from "js-cookie";
     }
   }
 </script>
+
+<style>
+  #article {
+    text-align: left;
+    padding-left: 60px;
+  }
+  .info {
+    display:flex;
+    /* width: 70%; */
+    color: rgb(172, 172, 172);
+    font-size: 15px;
+    margin-bottom: 20px;
+  }
+  .content{
+    margin: 30px 0;
+    min-height: 400px;
+    clear: both;
+    /* border: 1px solid #000 */
+  }
+</style>
+

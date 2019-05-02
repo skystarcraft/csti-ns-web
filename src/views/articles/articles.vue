@@ -8,7 +8,7 @@
       </el-form>
     </div>
     <div>
-      <div style="text-align: left;margin-left: 180px;">
+      <div style="text-align: left;padding:0 180px;">
         <div class="eachArticle" v-for="article in articles" :key="article.adate" @click="getOneArticle(article)">
           <h3>{{article.article_title}}</h3>
           <div style="display:flex;color: #ccc">
@@ -86,7 +86,6 @@ import Cookies from "js-cookie";
 #article {
   height: 500px;
   width: 1400px;
-  margin-top: 30px;
   /* margin: 10px; */
 }
 .eachArticle {

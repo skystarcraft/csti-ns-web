@@ -1,5 +1,5 @@
 <template>
-  <div style="margin: 10px 20px">
+  <div style="margin: 10px 20px;padding: 0 100px">
     <el-form ref="article" :model="article">
       <div id="article_title">
         <el-form-item>
@@ -11,7 +11,7 @@
           <mavon-editor style="height:600px" ref=md @imgAdd="$imgAdd" @imgDel="$imgDel" v-model="article.article_context" ></mavon-editor>
         </el-form-item>
       </div>
-      <el-select v-model="value" placeholder="请选择">
+      <el-select v-model="value" placeholder="请选择文章分类">
        <el-option
          v-for="item in options"
          :key="item.value"
@@ -19,7 +19,7 @@
          :value="item.value">
        </el-option>
      </el-select>
-      <el-form-item size="large" class="me-login-button">
+      <el-form-item style="margin-top: 30px" size="large" class="me-login-button">
         <el-button type="primary" @click.native="writeArticle(article)">发布文章</el-button>
       </el-form-item>
     </el-form>

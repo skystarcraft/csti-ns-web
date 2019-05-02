@@ -1,8 +1,45 @@
 <template>
-  <div>
-    <div>我的喵币： {{score}}</div>
+  <div style="text-align:left;padding: 0 100px">
+    <div id="myCount">我的喵币： {{score}}</div>
     <div id="res">
-      <li v-for="resource in resources" @click="getOneRes(resource)">{{resource}}</li>
+      <el-table
+      :data="resources"
+      border
+      style="width: 100%">
+      <el-table-column
+        prop="rname"
+        label="名称"
+        align="center"
+        >
+      </el-table-column>
+      <el-table-column
+        prop="rscore"
+        label="所需积分"
+        align="center"
+        width="180">
+      </el-table-column>
+      <el-table-column
+        prop="rdownload"
+        align="center"
+        label="下载量"
+        width="180">
+      </el-table-column>
+      <el-table-column
+        align="center"
+        label="资源评分"
+        width="180">
+        <template slot-scope="scope">
+          <span>{{scope.row.rstar}} / 5</span> 
+        </template>
+      </el-table-column>
+      <el-table-column
+        align="center"
+        label="操作">
+        <template slot-scope="scope">
+          <el-button @click.native="getOneRes(scope.row)" type="primary">资源详情</el-button>
+        </template>
+      </el-table-column>
+    </el-table>
     </div>
   </div>
 </template>
@@ -56,3 +93,13 @@ import Cookies from "js-cookie";
     }
   }
 </script>
+
+<style>
+  #myCount {
+    height: 50px;
+    color: rgb(53, 168, 97);
+    font-size: 18px;
+    font-weight: 600;
+  }
+</style>
+

@@ -1,32 +1,50 @@
 <template>
-  <div>
-    <div>我的喵币： {{score}}</div>
+  <div style="text-align:left;padding: 0 100px">
+    <div id="myCount">我的喵币： {{score}}</div>
     <div id="resource" v-model="resource">
       <el-form ref="resource" :model="resource">
         <el-form-item>
-          <li>{{resource.rid}}</li>
-          <li>{{resource.rname}}</li>
-          <li>{{resource.rscore}}</li>
-          <li>{{resource.rdownload}}</li>
-          <li>{{resource.ruid}}</li>
+          <h3>{{resource.rname}}</h3>
+          <div>上传者：{{resource.ruid}}</div>
+          <div>所需积分：{{resource.rscore}}</div>
+          <div>下载次数：{{resource.rdownload}}</div>
         </el-form-item>
         <el-form-item size="large" class="me-login-button">
           <el-button type="primary" @click.native="download(resource)">下载</el-button>
         </el-form-item>
       </el-form>
     </div>
-    <div id="comments">
-      <li v-for="comment in comments">{{comment}}</li>
-    </div>
+    <!-- <div id="comments">
+      <div v-for="comment in comments">{{comment}}</div>
+    </div> -->
 
-    <el-form ref="comment" :model="comment">
+    <!-- <el-form ref="comment" :model="comment">
         <el-form-item>
           <el-input placeholder="发布评论" v-model="comment.comment_context"></el-input>
         </el-form-item>
       <el-form-item size="large" class="me-login-button">
         <el-button type="primary" @click.native="writeComment(comment)">发布评论</el-button>
       </el-form-item>
-    </el-form>
+    </el-form> -->
+    <br>
+    <hr>
+    <div>
+      <h4>资源评论</h4>
+      <div v-if="comments">
+        <div style="display:flex;margin:20px 0" :key="comment.cdate" v-for="comment in comments">
+          <div style="margin-right:14px;">{{comment.uid}}:</div>
+          <div style="font-weight:600;width:80%">{{comment.comment_context}}</div>
+          <div style="margin-left:auto;font-size:12px">{{comment.ctime}}</div>
+        </div>
+      </div>
+      <div style="text-align: center;margin: 20px 0" v-else>
+        暂无评论哦
+      </div>
+      <div style="margin-top: 50px">
+          <el-input type="textarea" rows="6" placeholder="说点什么吧~" v-model="comment.comment_context"></el-input>
+          <el-button style="float:right;margin-top:10px" type="primary" @click.native="writeComment(comment)">发布评论</el-button>
+      </div>
+    </div>
 
   </div>
 </template>
@@ -138,3 +156,13 @@ import Cookies from "js-cookie";
     }
   }
 </script>
+
+<style>
+#myCount {
+    height: 50px;
+    color: rgb(53, 168, 97);
+    font-size: 18px;
+    font-weight: 600;
+  }
+</style>
+

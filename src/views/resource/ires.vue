@@ -1,11 +1,45 @@
 <template>
-  <div v-model="resource">
-    <el-form ref="resource" v-model="resource">
-      <li v-for="resource in resources">
-        {{resource}}
-        <el-button type="primary" @click.native="delResource(resource)">删除</el-button>
-      </li>
-    </el-form>
+  <div style="padding: 0 100px" v-model="resource">
+    <div id="res">
+      <el-table
+      :data="resources"
+      border
+      style="width: 100%">
+      <el-table-column
+        prop="rname"
+        label="名称"
+        align="center"
+        >
+      </el-table-column>
+      <el-table-column
+        prop="rscore"
+        label="所需积分"
+        align="center"
+        width="180">
+      </el-table-column>
+      <el-table-column
+        prop="rdownload"
+        align="center"
+        label="下载量"
+        width="180">
+      </el-table-column>
+      <el-table-column
+        align="center"
+        label="资源评分"
+        width="180">
+        <template slot-scope="scope">
+          <span>{{scope.row.rstar}} / 5</span> 
+        </template>
+      </el-table-column>
+      <el-table-column
+        align="center"
+        label="操作">
+        <template slot-scope="scope">
+          <el-button type="danger" @click.native="delResource(scope.row)">删除</el-button>
+        </template>
+      </el-table-column>
+    </el-table>
+    </div>
   </div>
 </template>
 
@@ -61,7 +95,7 @@ import Cookies from "js-cookie";
         var uid = Cookies.get('user');
         this.$api.get('/res/res/del/' + resource.rid).then(res => {
           if (res.data.code === 200) {
-            this.$message(res.data.msg);
+            this.$message.success(res.data.msg);
             this.getResource();
           } else {
             this.$message.error(res.data.msg);

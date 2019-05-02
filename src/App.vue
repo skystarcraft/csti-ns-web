@@ -12,7 +12,7 @@
         </div>
       </div>
       <div style="width: 88%">
-        <el-header style="width: 100%;height: 10%;padding: 0px">
+        <el-header style="width: 100%;height: 100px;padding: 0px">
         <div v-if="$route.meta.keepAlive">
             <el-menu
               mode="horizontal"
@@ -45,7 +45,7 @@
             </el-menu>
           </div>
         </el-header>
-          <router-view style="min-height: 676px" class="clear" v-if="isRouterAlive"></router-view>
+          <router-view style="min-height: 696px" class="clear" v-if="isRouterAlive"></router-view>
       </div>
      </div>
      <div style='clear:both'></div>
@@ -268,8 +268,6 @@ body {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  /* height: 90px; */
-  /* margin-top: 0px; */
 }
 .el-menu li {
     list-style: none;
@@ -319,7 +317,7 @@ body {
   }
   .clear{ clear:both}
   .footer {
-    height: 100px;
+    height: 80px;
     width: 100%;
     margin-top: 100px;
     color: #ccc;

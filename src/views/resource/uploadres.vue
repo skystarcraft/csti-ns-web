@@ -77,7 +77,7 @@ import Cookies from "js-cookie";
       newImport (data) {
         this.$api.post('/res/uploadToFast', data).then(res => {
             if (res.data.code === 200) {
-              this.$message(res.data.msg);
+              this.$message.success(res.data.msg);
             } else {
               this.$message.error(res.data.msg)
             }
