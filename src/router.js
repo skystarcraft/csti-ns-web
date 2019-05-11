@@ -16,6 +16,8 @@ import UploadRes from "./views/resource/uploadres.vue"
 import Myself from "./views/my/myself.vue"
 import Naxin from "./views/naxin/naxin.vue"
 import Collection from "./views/articles/myCollection.vue"
+import Payrecord from "./views/my/payrecord.vue"
+import Downrecord from "./views/my/downrecord.vue"
 
 Vue.use(Router)
 
@@ -168,6 +170,20 @@ export default new Router({
       path: '/collection',
       name: 'collection',
       component: Collection,
+      meta: {
+        keepAlive: true
+      }
+    },{
+      path: '/payrecord',
+      name: 'payrecord',
+      component: Payrecord,
+      meta: {
+        keepAlive: true
+      }
+    },{
+      path: '/downrecord',
+      name: 'downrecord',
+      component: Downrecord,
       meta: {
         keepAlive: true
       }

@@ -66,6 +66,7 @@ import Cookies from "js-cookie";
           } else {
             this.$message.error(res.data.msg);
           }
+          this.$router.push({name: 'articles'});
         })
       },
       getUser() {

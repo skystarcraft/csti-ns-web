@@ -36,6 +36,8 @@
                       <el-dropdown-item @click.native="open('iArticle')">我的文章</el-dropdown-item>
                       <el-dropdown-item @click.native="open('collection')">我的收藏</el-dropdown-item>
                       <el-dropdown-item @click.native="open('iRes')">我的资源</el-dropdown-item>
+                      <el-dropdown-item @click.native="open('payrecord')">充值记录</el-dropdown-item>
+                      <el-dropdown-item @click.native="open('downrecord')">下载记录</el-dropdown-item>
                       <el-dropdown-item @click.native="open('myself')">个人信息</el-dropdown-item>
                       <el-dropdown-item @click.native="logout()">注销</el-dropdown-item>
                     </el-dropdown-menu>

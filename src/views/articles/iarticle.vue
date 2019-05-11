@@ -91,7 +91,7 @@ import Cookies from "js-cookie";
         var uid = Cookies.get('user');
         this.$api.get('/art/del/article/' + article.aid).then(res => {
           if (res.data.code === 200) {
-            this.$message.success({message: "删除成功!", type: 'success'});
+            this.$message({message: "删除成功!", type: 'success'});
             this.getArticle();
           } else {
             this.$message.error(res.data.msg);
