@@ -137,6 +137,7 @@ import Cookies from "js-cookie";
           if (res.data.code === 200) {
             this.$message.success(res.data.msg);
             this.getComments();
+            this.comment.article_context = '';
             // console.log(res.data.data);
           } else {
             this.$message.error(res.data.msg);
