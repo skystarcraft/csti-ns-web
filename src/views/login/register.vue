@@ -183,7 +183,7 @@ import Cookies from "js-cookie";
       sendCode(userForm) {
         this.$api.get('/sso/user/vcode/' + userForm.user_phone).then(res => {
           if (res.data.code === 200) {
-
+            this.$message({message:"验证码发送成功！", type: 'success'});
             userForm.currentCode = res.data.data;
             // console.log(res.data.data);
           } else {
