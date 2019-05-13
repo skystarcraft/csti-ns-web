@@ -132,8 +132,9 @@ import Cookies from "js-cookie";
           uid: uid
         }).then(res => {
           if (res.data.code === 200) {
-            this.$message(res.data.msg);
+            this.$message.success(res.data.msg);
             this.getComments();
+            this.comment.comment_context = '';
             // console.log(res.data.data);
           } else {
             this.$message.error(res.data.msg);
