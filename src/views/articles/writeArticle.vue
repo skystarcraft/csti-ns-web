@@ -28,6 +28,7 @@
 
 <script>
 import Cookies from "js-cookie";
+import marked from 'marked';
   export default {
     name: 'WriteArticle',
     data() {
@@ -53,9 +54,10 @@ import Cookies from "js-cookie";
     methods: {
       writeArticle(article) {
         var uid = Cookies.get('user');
+        console.log(marked(article.article_context));
         this.$api.post('/art/article/', {
           article_title: article.article_title,
-          article_context: article.article_context,
+          article_context: marked(article.article_context),
           uid: uid
         }).then(res => {
           if (res.data.code === 200) {

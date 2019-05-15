@@ -13,7 +13,7 @@
         </div>
       </div>
       <hr>
-      <div class="content">{{article.article_context}}</div>
+      <div class="content" v-html="article.article_context"></div>
     </div>
     <hr>
     <br>
