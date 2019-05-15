@@ -64,7 +64,12 @@ import Cookies from "js-cookie";
         var uid = Cookies.get('user');
         this.$api.get('/art/my/article/' + uid).then(res => {
           if (res.data.code === 200) {
-            this.articles = res.data.data;
+            let arts = res.data.data;
+            (arts).forEach(art => {
+              console.log(art);
+              art.adate = art.adate.replace('T',' ').replace('\.000+0000','')
+            })
+            this.articles = arts;
           } else {
             this.$message.error(res.data.msg);
             article = null;

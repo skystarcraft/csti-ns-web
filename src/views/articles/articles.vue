@@ -12,7 +12,7 @@
         <div class="eachArticle" v-for="article in articles" :key="article.adate" @click="getOneArticle(article)">
           <h3>{{article.article_title}}</h3>
           <div style="display:flex;color: #ccc">
-            <div>{{article.adate}}</div>
+            <div>{{article.adate.replace('T',' ').replace('\.000+0000','')}}</div>
             <div style="margin-left: auto;">阅读：{{article.article_view}}</div>
           </div>
         </div>

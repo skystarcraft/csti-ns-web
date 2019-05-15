@@ -84,7 +84,7 @@ import Cookies from "js-cookie";
             this.article.article_context = res.data.data.article_context;
             this.article.article_view = res.data.data.article_view;
             this.article.uid = res.data.data.uid;
-            this.article.adate = res.data.data.adate;
+            this.article.adate = res.data.data.adate.replace('T',' ').replace('\+0000','');
             let uid = Cookies.get('user');
             let arid = this.article.aid;
             this.$api.get('/per/iscollection/' + uid + '/' + arid).then(res => {
