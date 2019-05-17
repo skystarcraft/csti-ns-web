@@ -34,7 +34,7 @@
         <div style="display:flex;margin:20px 0" :key="comment.cdate" v-for="comment in comments">
           <div style="margin-right:14px;">{{comment.uid}}:</div>
           <div style="font-weight:600;width:80%">{{comment.comment_context}}</div>
-          <div style="margin-left:auto;font-size:12px">{{comment.ctime}}</div>
+          <div style="margin-left:auto;font-size:12px">{{comment.ctime.replace('T',' ').replace('\.000+0000','')}}</div>
         </div>
       </div>
       <div style="text-align: center;margin: 20px 0" v-else>
@@ -82,7 +82,7 @@ import Cookies from "js-cookie";
     methods: {
       getResource() {
         var isFordward = this.$route.params.fordward;
-        var rid = this.$route.params.rid;
+        var rid = this.$route.query.rid;
         this.$api.get('/res/res/' + rid).then(res => {
           if (res.data.code === 200) {
             this.resource.rid = res.data.data.rid;
@@ -99,7 +99,7 @@ import Cookies from "js-cookie";
       },
       getComments() {
         var isFordward = this.$route.params.fordward;
-        var rid = this.$route.params.rid;
+        var rid = this.$route.query.rid;
         this.$api.get('/res/res/comments/' + rid).then(res => {
           if (res.data.code === 200) {
             this.comments = res.data.data;

@@ -55,21 +55,27 @@ import marked from 'marked';
       writeArticle(article) {
         var uid = Cookies.get('user');
         console.log(marked(article.article_context));
-        this.$api.post('/art/article/', {
-          article_title: article.article_title,
-          article_context: marked(article.article_context),
-          uid: uid
-        }).then(res => {
-          if (res.data.code === 200) {
-            this.$message({message: res.data.msg, type: 'success'});
-            console.log(res.data.data);
-            this.addSearch(res.data.data);
-            this.addTag(res.data.data);
-          } else {
-            this.$message.error(res.data.msg);
+        if (article.article_title.trim() === null || article.article_title.trim() === "") {
+          this.$message.error("标题不能为空");
+        } else if (article.article_context.trim() === null || article.article_context.trim() === "") {
+          this.$message.error("内容不能为空");
+        } else {
+          this.$api.post('/art/article/', {
+            article_title: article.article_title,
+            article_context: marked(article.article_context),
+            uid: uid
+          }).then(res => {
+            if (res.data.code === 200) {
+              this.$message({message: res.data.msg, type: 'success'});
+              console.log(res.data.data);
+              this.addSearch(res.data.data);
+              this.addTag(res.data.data);
+            } else {
+              this.$message.error(res.data.msg);
+            }
+            this.$router.push({name: 'articles'});
+          })
           }
-          this.$router.push({name: 'articles'});
-        })
       },
       getUser() {
         var token = Cookies.get('token');

@@ -62,7 +62,8 @@ import Cookies from "js-cookie";
         })
       },
       getOneArticle(article) {
-        this.$router.push({name: 'article',params: {aid: article.aid, fordward: true}})
+        // this.$router.push({name: 'article',params: {aid: article.aid, fordward: true}})
+        this.$router.push({path: '/article/' + article.aid, query: {aid: article.aid, fordward: true}})
       },
       searchArticle(form) {
         if (form.search === '') {

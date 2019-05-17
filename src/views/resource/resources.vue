@@ -88,7 +88,8 @@ import Cookies from "js-cookie";
         })
       },
       getOneRes(resource) {
-        this.$router.push({name: 'resource',params: {rid: resource.rid, fordward: true}})
+        // this.$router.push({name: 'resource',params: {rid: resource.rid, fordward: true}})
+        this.$router.push({path: '/resource/' + resource.rid, query: {rid: resource.rid, fordward: true}})
       },
     }
   }

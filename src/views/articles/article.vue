@@ -24,7 +24,7 @@
         <div style="display:flex;align-items: center;margin:20px 0" :key="comment.cdate" v-for="comment in comments">
           <div style="margin-right:14px;">{{comment.uid}}:</div>
           <div style="font-weight:600;">{{comment.article_context}}</div>
-          <div style="margin-left:auto;font-size:12px">{{comment.cdate}}</div>
+          <div style="margin-left:auto;font-size:12px">{{comment.cdate.replace('T',' ').replace('\.000+0000','')}}</div>
         </div>
       </div>
       <div style="text-align: center;margin: 20px 0" v-else>
@@ -76,7 +76,7 @@ import Cookies from "js-cookie";
     methods: {
       getArticle() {
         var isFordward = this.$route.params.fordward;
-        var aid = this.$route.params.aid;
+        var aid = this.$route.query.aid;
         this.$api.get('/art/article/' + aid).then(res => {
           if (res.data.code === 200) {
             this.article.aid = res.data.data.aid;
@@ -104,7 +104,8 @@ import Cookies from "js-cookie";
       },
       getComments() {
         var isFordward = this.$route.params.fordward;
-        var aid = this.$route.params.aid;
+        // var aid = this.$route.params.aid;
+        var aid = this.$route.query.aid;
         this.$api.get('/acom/comment/' + aid).then(res => {
           if (res.data.code === 200) {
             this.comments = res.data.data;
@@ -129,7 +130,10 @@ import Cookies from "js-cookie";
       },
       writeComment(comment) {
         var uid = Cookies.get('user');
-        this.$api.post('/acom/comment', {
+        if (comment.article_context.trim() === null || comment.article_context.trim() === "") {
+          this.$message.error("评论内容不能为空");
+        } else {
+          this.$api.post('/acom/comment', {
           aid: this.article.aid,
           article_context: comment.article_context,
           uid: uid
@@ -143,6 +147,7 @@ import Cookies from "js-cookie";
             this.$message.error(res.data.msg);
           }
         })
+        }
       },
       collectionArticles() {
         let uid = Cookies.get('user');
